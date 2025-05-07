@@ -62,12 +62,12 @@ The score on different folds.
 The final score on public leaderboard with ensemble is **0.407** and the one on private leaderboard is **0.436**. This also indicates the generalizability of my ensemble method!
 
 
-### Reference
-[1] He, K., Gkioxari, G., Dollár, P., & Girshick, R. (2017). Mask r-cnn. In Proceedings of the 
-IEEE international conference on computer vision (pp. 2961-2969). 
+## Reference
+[1] (He, K., Gkioxari, G., Dollár, P., & Girshick, R. (2017). Mask r-cnn. In Proceedings of the 
+IEEE international conference on computer vision (pp. 2961-2969).)[https://arxiv.org/abs/1703.06870] 
 
-[2] Burel, G., & Carel, D. (1994). Detection and localization of faces on digital images. Pattern 
-Recognition Letters, 15(10), 963-967. 
+[2] (Burel, G., & Carel, D. (1994). Detection and localization of faces on digital images. Pattern 
+Recognition Letters, 15(10), 963-967.)[https://www.sciencedirect.com/science/article/abs/pii/0167865594900272] 
 
-[3] Yuxin Wu, Alexander Kirillov, Francisco Massa, Wan-Yen Lo, & Ross Girshick. (2019). 
-Detectron2. 
+[3] [Yuxin Wu, Alexander Kirillov, Francisco Massa, Wan-Yen Lo, & Ross Girshick. (2019). 
+Detectron2.](https://github.com/facebookresearch/detectron2) 
