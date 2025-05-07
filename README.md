@@ -38,8 +38,20 @@ For ensemble, I run the **5-fold** cross validation and combine the best models 
   ```
 
 ## Performance
+
+The training record.
+
+![image](https://github.com/user-attachments/assets/f4716e2f-1d53-425a-96b6-358b7aa1a9ee)
+
+
+<hr>
+
 The validation score of my method.
-![image](https://github.com/user-attachments/assets/7fe707da-ae9f-4ade-8d39-1e18c8d085e9)
+
+![image](https://github.com/user-attachments/assets/58c95972-22f4-4d6d-aa6b-6f1d9b6adb58)
+
+
+<hr>
 
 The score on different folds.
 ![螢幕擷取畫面 2025-05-07 222358](https://github.com/user-attachments/assets/1f71e59b-03d2-4ef0-83d1-27a11c4ffed6)
