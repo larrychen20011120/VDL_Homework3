@@ -1,55 +1,59 @@
 # VDL_Homework3
 ## Introduction
-This is the HW2 in visual deep learning. In this project, we should predict the bounding boxes and categories of digits in the given image and then output the whole number of this image. This could be viewed as two tasks. I apply Faster RCNN with pretrained backbone of MobileNet-V3 on `torchvision` which is called `FasterRCNN_MobileNet_V3_Large_FPN_Weights.COCO_V1`. I set all parameters of the Faster RCNN to be trainbale and apply different learning rate to different layers of the model. I choose Adam as the optimizer and apply cosine annealing learning decay. The detailed hyper-parameters for training is shown as the following:
+This is the HW3 in visual deep learning. In this project, we should predict the pixel-level segmentation of the given image and then output all possible instances. I use the `Mask-RCNN` with pretrained backbone of ResNet-50 on `detectron2` which is called `new_baselines/mask_rcnn_R_50_FPN_400ep_LSJ`. I set all parameters of the Mask RCNN to be trainbale and apply different learning rate to different layers of the model. I choose Adam as the optimizer and apply cosine annealing learning decay with warmup. The detailed hyper-parameters for training is shown as the following:
 
-![image](https://github.com/user-attachments/assets/f0e416fe-0115-4dc2-9829-d934fa96c057)
+![image](https://github.com/user-attachments/assets/a3772d52-6a1d-4215-a4fe-c607a5e6e8fa)
+
+For ensemble, I run the **5-fold** cross validation and combine the best models from different folds to predict the final result.
+
 
 ## Project structure
 - `train.py` is the main function for training
-- `model.py` is the file describe the Faster RCNN
-- `data.py` describes how to build up the pytorch dataset and the processing methods and augmentation methods I used
-- `ensemble.py` is to ensemble many model's outputs together
-- `inference.py` is to run testing result
-- `find_threshold.py` find the best threshold of score under the validation set
-- other python files are from torchvision which is the easy training code I can simply apply to this task
+- `utils.py` is the file describe how to transform the mask format from pixels to bitmask
+- `dataset.py` describes how to create the dataset format that detectron2 accept
+- `ensemble.py` is to the scripts of how to combine multiple models
+- `inference.py` is to run testing result on one model
+- `test_image_name_to_ids.json` is a file describe the mapping between testing images and image ids 
 
 ## How to run the code
-- install the dependencies and activate the environment
+- install the dependencies
   ```
-  conda env create --file=environment.yaml
-  conda activate DL-Image
+  pip install -r requirements.txt
   ```
-- Generate the sample data augmentation (stored as `bbox.png`)
+- Generate the dataset for detectron2 accepted -> it will store in `data/pre_processed.pkl`
   ```
   python dataset.py
   ```
-- See the model size for training
+- See the model size and training (You can assign seed to represent the fold number (0~4))
   ```
-  python model.py
+  python train.py --seed 1
   ```
-- train the model (if use default parameter, just run the following code). You can change the `LOG` name in `engine.py` to alter the tensorboard log filename
+- Inference on one model
   ```
-  python train.py
+  python inference.py --weights ***.pth
   ```
-- Find the best threshold for Task 2
+- Inference with ensembling (You can add many models) 
   ```
-  python find_threshold.py
-  ```
-- Inference (You can setup your `model weights` and `threshold`)
-  ```
-  python inference.py
-  ```
-- Ensemble Multiple models' results
-  ```
-  python ensemble.py
+  python ensemble --weights *.pth **.pth ***.pth ****.pth
   ```
 
 ## Performance
 The validation score of my method.
-![螢幕擷取畫面 2025-04-16 223059](https://github.com/user-attachments/assets/cc41329f-3b70-4397-9cd4-7ee114472ef2)
+![image](https://github.com/user-attachments/assets/7fe707da-ae9f-4ade-8d39-1e18c8d085e9)
 
+The score on different folds.
+![螢幕擷取畫面 2025-05-07 222358](https://github.com/user-attachments/assets/1f71e59b-03d2-4ef0-83d1-27a11c4ffed6)
+
+
+<hr>
+
+The final score on public leaderboard with ensemble is **0.407** and the one on private leaderboard is **0.436**. This also indicates the generalizability of my ensemble method!
 
 
 ### Reference
-- [Kaggle Tutorial of Fine-tuning Faster-RCNN Using Pytorch](https://www.kaggle.com/code/yerramvarun/fine-tuning-faster-rcnn-using-pytorch#Model)
-- [TorchVision Object Detection Finetuning Tutorial](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html)
+[1] He, K., Gkioxari, G., Dollár, P., & Girshick, R. (2017). Mask r-cnn. In Proceedings of the 
+IEEE international conference on computer vision (pp. 2961-2969). 
+[2] Burel, G., & Carel, D. (1994). Detection and localization of faces on digital images. Pattern 
+Recognition Letters, 15(10), 963-967. 
+[3] Yuxin Wu, Alexander Kirillov, Francisco Massa, Wan-Yen Lo, & Ross Girshick. (2019). 
+Detectron2. 
